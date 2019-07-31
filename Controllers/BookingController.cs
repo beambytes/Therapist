@@ -85,15 +85,14 @@ namespace TherapistAPI.Controllers
                 BookingDL obj = new BookingDL();
                 obj.SaveBooking(model, UserId);
 
-                //list.success = true;
-                //list.message = "Get booking details Successfully";
-                //list.code = 200;
-
-                return Ok();
+                responseData.message = "Booking details saved successfully";
+                responseData.success = true;
+                return Ok(responseData);
             }
             catch (Exception ex)
             {
                 responseData.message = ex.Message != null ? ex.Message.ToString() : "server error";
+                responseData.success = false;
                 return Ok(responseData);
             }
         }

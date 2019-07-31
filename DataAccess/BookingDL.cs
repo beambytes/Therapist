@@ -81,6 +81,7 @@ namespace TherapistAPI.DataAccess
             cmd.Parameters.AddWithValue("@PolicyNo", model.PolicyNo);
             cmd.Parameters.AddWithValue("@RelPat", model.RelPat);
             cmd.Parameters.AddWithValue("@AssBen", model.AssBen);
+            cmd.Parameters.AddWithValue("@IsInvOtherHelthCare", model.IsInvOtherHelthCare);
             cmd.Parameters.AddWithValue("@BookingSerXML", BookingSerList);
             cmd.Parameters.AddWithValue("@ECHBenXML", EHCbenefitsList);
             cmd.Parameters.AddWithValue("@Identity", 0);

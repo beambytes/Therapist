@@ -48,7 +48,8 @@ namespace TherapistAPI.Models
         public DateTime? PlicyDOB { get; set; }
         public string RelPat { get; set; }
         public string AssBen { get; set; }
-        
+        public bool IsInvOtherHelthCare { get; set; }
+
         public string PolicyHolderName { get; set; }
 
         public List<UsersModel> User { get; set; }
