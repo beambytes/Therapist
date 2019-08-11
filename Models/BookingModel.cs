@@ -24,12 +24,12 @@ namespace TherapistAPI.Models
         public string State { get; set; }
         public string Zipcode { get; set; }
         public string Country { get; set; }
-        public int ServiceID { get; set; }
+        public string ServiceID { get; set; }
         public string Status { get; set; }
         public DateTime CurrentDateTime { get; set; }
         
         public int IsPannic { get; set; }
-        public char Gender { get; set; }
+        public string Gender { get; set; }
         public DateTime DOB { get; set; }
         public string EmergencyName { get; set; }
         public string EmergPhone { get; set; }
@@ -52,12 +52,15 @@ namespace TherapistAPI.Models
 
         public string PolicyHolderName { get; set; }
 
+        public string TherapistName { get; set; }
+
         public List<UsersModel> User { get; set; }
         public List<TherapistModel> Therapist { get; set; }
         public List<ServicesModel> ServiceList { get; set; }
 
         public List<BookingSerModel> BookingSerList { get; set; }
         public List<EHCbenefitsModel> EHCbenefitsList { get; set; }
+
     }
 
     public class BookingSerModel
@@ -78,6 +81,21 @@ namespace TherapistAPI.Models
         public string RefRequired { get; set; }
         public string Description { get; set; }
         //public int BookingID { get; set; }
+    }
+
+
+    public class DashboardModel : BaseModel
+    {
+        public int Assign { get; set; }
+        public int Completed { get; set; }
+        public int Approve { get; set; }
+        public int Pending { get; set; }
+        public int BookingCount { get; set; }
+        public int TherapistCount { get; set; }
+        public int PatientCount { get; set; }
+        
+        public List<BookingModel> BookingList { get; set; }
+        
     }
 
 

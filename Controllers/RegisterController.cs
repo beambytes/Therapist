@@ -129,7 +129,6 @@ namespace TherapistAPI.Controllers
                 UserTokenViewModel userToken = GenerateAccessTokenForUser(list);
                 list.UserTokenInfo = userToken;
                 responseData.success = true;
-                responseData.message = "Login Successfully";
                 responseData.data = list;
                 responseData.code = 200;
 

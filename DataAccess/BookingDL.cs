@@ -37,7 +37,7 @@ namespace TherapistAPI.DataAccess
             return model;
         }
 
-        public void SaveBooking(BookingModel model,string userId)
+        public void SaveBooking(BookingModel model, string userId)
         {
             string BookingSerList = "";
             if (model.BookingSerList != null && model.BookingSerList.Count > 0)
@@ -88,6 +88,56 @@ namespace TherapistAPI.DataAccess
             conn.Open();
             cmd.ExecuteNonQuery();
             conn.Close();
+        }
+
+
+        public DashboardModel GetDashboard(int userId, int RefType, int RefID)
+        {
+            DataSet DS = new DataSet();
+
+            SqlCommand cmd = new SqlCommand("[therapistdb].[SP_GetDashboard]", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UserId", userId);
+            cmd.Parameters.AddWithValue("@RefType", RefType);
+            cmd.Parameters.AddWithValue("@RefID", RefID);
+
+            SqlDataAdapter adp = new SqlDataAdapter(cmd);
+            DataSet ds = new DataSet();
+            adp.Fill(ds);
+            DashboardModel model = new DashboardModel();
+
+
+            List<DashboardModel> dashboard = objCommon.ConvertDataTable<DashboardModel>(ds.Tables[0]);
+            model.Assign = dashboard[0].Assign;
+            model.Completed = dashboard[0].Completed;
+            model.Approve = dashboard[0].Approve;
+            model.Pending = dashboard[0].Pending;
+            model.BookingCount = dashboard[0].BookingCount;
+            model.TherapistCount = dashboard[0].TherapistCount;
+            model.PatientCount = dashboard[0].PatientCount;
+
+            model.BookingList = objCommon.ConvertDataTable<BookingModel>(ds.Tables[1]);
+            return model;
+        }
+
+        public List<BookingModel> GetAllBooking(int userId, int RefType, int RefID, BookingModel model1)
+        {
+            DataSet DS = new DataSet();
+
+            SqlCommand cmd = new SqlCommand("[therapistdb].[SP_GetBookingList]", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UserId", userId);
+            cmd.Parameters.AddWithValue("@RefType", RefType);
+            cmd.Parameters.AddWithValue("@RefID", RefID);
+            cmd.Parameters.AddWithValue("@Status", model1.Status);
+            cmd.Parameters.AddWithValue("@TherapistName", model1.TherapistName);
+            cmd.Parameters.AddWithValue("@PatientName", model1.PatientName);
+
+            SqlDataAdapter adp = new SqlDataAdapter(cmd);
+            DataSet ds = new DataSet();
+            adp.Fill(ds);
+            List<BookingModel> model = objCommon.ConvertDataTable<BookingModel>(ds.Tables[0]);
+            return model;
         }
 
         public String ObjectToXMLGeneric<T>(T filter)

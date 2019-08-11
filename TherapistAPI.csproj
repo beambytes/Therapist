@@ -203,6 +203,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="CommonUtilities\Common.cs" />
     <Compile Include="CommonUtilities\Enums.cs" />
+    <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\BookingController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
     <Compile Include="DataAccess\BookingDL.cs" />

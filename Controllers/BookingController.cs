@@ -24,16 +24,7 @@ namespace TherapistAPI.Controllers
     public class BookingController : ApiController
     {
         private ResponseData responseData = new ResponseData();
-        private static Random random = new Random();
-
-
-        public static string RandomString(int length)
-        {
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            return new string(Enumerable.Repeat(chars, length)
-              .Select(s => s[random.Next(s.Length)]).ToArray());
-        }
-
+        
         [HttpGet]
         [Route("GetBooking")]
         public IHttpActionResult GetBooking()
@@ -98,13 +89,29 @@ namespace TherapistAPI.Controllers
         }
 
 
-
-        #region private methods
-        private string ModelStateErrors(ModelStateDictionary modelState)
+        [HttpPost]
+        [Route("GetAllBooking")]
+        public IHttpActionResult GetAllBooking(BookingModel model)
         {
-            return string.Join(" | ", modelState.Values.SelectMany(v => v.Errors).Select(v => v.ErrorMessage));
+            try
+            {
+                var UserId = ((ClaimsIdentity)User.Identity).Claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.NameIdentifier)).Value;
+                var RefType = ((ClaimsIdentity)User.Identity).Claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.Name)).Value;
+                var RefID = ((ClaimsIdentity)User.Identity).Claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.Sid)).Value;
+
+                BookingDL obj = new BookingDL();
+                List<BookingModel> list = obj.GetAllBooking(Convert.ToInt32(UserId), Convert.ToInt32(RefType), Convert.ToInt32(RefID), model);
+                //list.success = true;
+                //list.message = "Get dashboard details Successfully";
+                //list.code = 200;
+                return Ok(list);
+            }
+            catch (Exception ex)
+            {
+                responseData.message = ex.Message != null ? ex.Message.ToString() : "server error";
+                return Ok(responseData);
+            }
         }
-        #endregion
 
 
     }
