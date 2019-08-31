@@ -25,9 +25,9 @@ namespace TherapistAPI.Controllers
     {
         private ResponseData responseData = new ResponseData();
         
-        [HttpGet]
+        [HttpPost]
         [Route("GetBooking")]
-        public IHttpActionResult GetBooking()
+        public IHttpActionResult GetBooking(BookingModel model)
         {
             try
             {
@@ -36,7 +36,7 @@ namespace TherapistAPI.Controllers
                 var RefType = ((ClaimsIdentity)User.Identity).Claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.Name)).Value;
 
                 BookingDL obj = new BookingDL();
-                BookingModel list = obj.GetBooking(Convert.ToInt32(UserId), Convert.ToInt32(RefType));
+                BookingModel list = obj.GetBooking(Convert.ToInt32(UserId), Convert.ToInt32(RefType), model.BookingID);
 
                 list.success = true;
                 list.message = "Get booking details Successfully";
@@ -112,6 +112,56 @@ namespace TherapistAPI.Controllers
                 return Ok(responseData);
             }
         }
+
+        [HttpPost]
+        [Route("ApproveCancelBooking")]
+        public IHttpActionResult ApproveCancelBooking(BookingModel model)
+        {
+            try
+            {
+                var UserId = ((ClaimsIdentity)User.Identity).Claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.NameIdentifier)).Value;
+                var RefType = ((ClaimsIdentity)User.Identity).Claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.Name)).Value;
+                var RefID = ((ClaimsIdentity)User.Identity).Claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.Sid)).Value;
+
+                BookingDL obj = new BookingDL();
+                obj.ApproveCancelBooking(model);
+                model.success = true;
+                model.message = "Booking "+ model.Status + " successfully";
+                model.code = 200;
+                return Ok(model);
+            }
+            catch (Exception ex)
+            {
+                responseData.message = ex.Message != null ? ex.Message.ToString() : "server error";
+                return Ok(responseData);
+            }
+        }
+
+
+        [HttpPost]
+        [Route("CompleteBooking")]
+        public IHttpActionResult CompleteBooking(BookingModel model)
+        {
+            try
+            {
+                var UserId = ((ClaimsIdentity)User.Identity).Claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.NameIdentifier)).Value;
+                var RefType = ((ClaimsIdentity)User.Identity).Claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.Name)).Value;
+                var RefID = ((ClaimsIdentity)User.Identity).Claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.Sid)).Value;
+
+                BookingDL obj = new BookingDL();
+                obj.CompleteBooking(model);
+                model.success = true;
+                model.message = "Booking " + model.Status + " successfully";
+                model.code = 200;
+                return Ok(model);
+            }
+            catch (Exception ex)
+            {
+                responseData.message = ex.Message != null ? ex.Message.ToString() : "server error";
+                return Ok(responseData);
+            }
+        }
+
 
 
     }

@@ -61,6 +61,8 @@ namespace TherapistAPI.Models
         public List<BookingSerModel> BookingSerList { get; set; }
         public List<EHCbenefitsModel> EHCbenefitsList { get; set; }
 
+        public List<TherapistModel> TherapistList { get; set; }
+
     }
 
     public class BookingSerModel

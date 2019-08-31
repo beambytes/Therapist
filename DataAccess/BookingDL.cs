@@ -19,21 +19,33 @@ namespace TherapistAPI.DataAccess
                         SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString);
         Common objCommon = new Common();
 
-        public BookingModel GetBooking(int userId, int refType)
+        public BookingModel GetBooking(int userId, int refType, int bookingID)
         {
             DataSet DS = new DataSet();
             SqlCommand cmd = new SqlCommand("[therapistdb].[SP_GetBooking]", conn);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@UserId", userId);
+            cmd.Parameters.AddWithValue("@BookingID", bookingID);
 
             SqlDataAdapter adp = new SqlDataAdapter(cmd);
             DataSet ds = new DataSet();
             adp.Fill(ds);
             BookingModel model = new BookingModel();
 
+            if (bookingID > 0)
+            {
+                List<BookingModel> m = objCommon.ConvertDataTable<BookingModel>(ds.Tables[2]);
+                model = m[0];
+
+                model.BookingSerList = objCommon.ConvertDataTable<BookingSerModel>(ds.Tables[3]);
+                model.EHCbenefitsList = objCommon.ConvertDataTable<EHCbenefitsModel>(ds.Tables[4]);
+
+                model.TherapistList = objCommon.ConvertDataTable<TherapistModel>(ds.Tables[5]);
+            }
             model.User = objCommon.ConvertDataTable<UsersModel>(ds.Tables[0]);
             model.CurrentDateTime = DateTime.Now;
             model.ServiceList = objCommon.ConvertDataTable<ServicesModel>(ds.Tables[1]);
+
             return model;
         }
 
@@ -73,17 +85,20 @@ namespace TherapistAPI.DataAccess
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@PatientID", model.PatientID);
             cmd.Parameters.AddWithValue("@TherapistID", model.TherapistID);
-            cmd.Parameters.AddWithValue("@BookingDate", model.BookingDate);
+            //cmd.Parameters.AddWithValue("@BookingDate", model.BookingDate);
             cmd.Parameters.AddWithValue("@EnteredBy", model.EnteredBy);
-            cmd.Parameters.AddWithValue("@EnteredOn", model.EnteredOn);
+            //cmd.Parameters.AddWithValue("@EnteredOn", model.EnteredOn);
             cmd.Parameters.AddWithValue("@PatientName", model.PatientName);
+            cmd.Parameters.AddWithValue("@DOB", model.DOB);
             cmd.Parameters.AddWithValue("@InsuranceComp", model.InsuranceComp);
             cmd.Parameters.AddWithValue("@PolicyNo", model.PolicyNo);
+            cmd.Parameters.AddWithValue("@PlicyDOB", model.PlicyDOB);
             cmd.Parameters.AddWithValue("@RelPat", model.RelPat);
             cmd.Parameters.AddWithValue("@AssBen", model.AssBen);
             cmd.Parameters.AddWithValue("@IsInvOtherHelthCare", model.IsInvOtherHelthCare);
             cmd.Parameters.AddWithValue("@BookingSerXML", BookingSerList);
             cmd.Parameters.AddWithValue("@ECHBenXML", EHCbenefitsList);
+            cmd.Parameters.AddWithValue("@BookingID", model.BookingID);
             cmd.Parameters.AddWithValue("@Identity", 0);
             conn.Open();
             cmd.ExecuteNonQuery();
@@ -138,6 +153,41 @@ namespace TherapistAPI.DataAccess
             adp.Fill(ds);
             List<BookingModel> model = objCommon.ConvertDataTable<BookingModel>(ds.Tables[0]);
             return model;
+        }
+
+        public void ApproveCancelBooking(BookingModel model)
+        {
+           
+            if (conn.State == ConnectionState.Open)
+            {
+                conn.Close();
+            }
+
+            SqlCommand cmd = new SqlCommand("[therapistdb].[SP_ApproveCancelBooking]", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@BookingID", model.BookingID);
+            cmd.Parameters.AddWithValue("@TherapistID", model.TherapistID);
+            cmd.Parameters.AddWithValue("@Status", model.Status);
+            conn.Open();
+            cmd.ExecuteNonQuery();
+            conn.Close();
+        }
+
+        public void CompleteBooking(BookingModel model)
+        {
+
+            if (conn.State == ConnectionState.Open)
+            {
+                conn.Close();
+            }
+
+            SqlCommand cmd = new SqlCommand("[therapistdb].[SP_CompleteBooking]", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@BookingID", model.BookingID);
+            cmd.Parameters.AddWithValue("@Status", model.Status);
+            conn.Open();
+            cmd.ExecuteNonQuery();
+            conn.Close();
         }
 
         public String ObjectToXMLGeneric<T>(T filter)
