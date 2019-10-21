@@ -57,24 +57,24 @@ namespace TherapistAPI.DataAccess
             {
                 conn.Close();
             }
-            DateTime? DOB;
-            if (UserLogin.DOB == "")
-            {
-                DOB = null;
-            }
-            else {
-                DOB = DateTime.ParseExact(UserLogin.DOB, "MM/dd/yyyy", CultureInfo.InvariantCulture);
-            }
+            //DateTime? DOB;
+            //if (UserLogin.DOB == "")
+            //{
+            //    DOB = null;
+            //}
+            //else {
+            //    DOB = DateTime.ParseExact(UserLogin.DOB, "MM/dd/yyyy", CultureInfo.InvariantCulture);
+            //}
 
-            DateTime? ExpDate;
-            if (UserLogin.ExpDate == "")
-            {
-                ExpDate = null;
-            }
-            else
-            {
-                ExpDate = DateTime.ParseExact(UserLogin.ExpDate, "MM/dd/yyyy", CultureInfo.InvariantCulture);
-            }
+            //DateTime? ExpDate;
+            //if (UserLogin.ExpDate == "")
+            //{
+            //    ExpDate = null;
+            //}
+            //else
+            //{
+            //    ExpDate = DateTime.ParseExact(UserLogin.ExpDate, "MM/dd/yyyy", CultureInfo.InvariantCulture);
+            //}
 
             SqlCommand cmd = new SqlCommand("[therapistdb].[SP_Register]", conn);
             cmd.CommandType = CommandType.StoredProcedure;
@@ -86,27 +86,38 @@ namespace TherapistAPI.DataAccess
             cmd.Parameters.AddWithValue("@RefType", UserLogin.RefType);
             cmd.Parameters.AddWithValue("@InsuranceNo", UserLogin.InsuranceNo);
             cmd.Parameters.AddWithValue("@Age", UserLogin.Age);
-            cmd.Parameters.AddWithValue("@DOB", DOB);
-            cmd.Parameters.AddWithValue("@ExpDate", ExpDate);
+
+            cmd.Parameters.AddWithValue("@ExpDate", null);
+            if (UserLogin.RefType == 1)
+            {
+                cmd.Parameters.AddWithValue("@DOB", null);
+            }
+            else
+            {
+                cmd.Parameters.AddWithValue("@DOB", UserLogin.DOB);
+            }
+            
             //New Field
             cmd.Parameters.AddWithValue("@AddrLine1", UserLogin.AddrLine1);
             cmd.Parameters.AddWithValue("@AddrLine2", UserLogin.AddrLine2);
             cmd.Parameters.AddWithValue("@City", UserLogin.City);
             cmd.Parameters.AddWithValue("@State", UserLogin.State);
             cmd.Parameters.AddWithValue("@Country", UserLogin.Country);
+            cmd.Parameters.AddWithValue("@PostalCode", UserLogin.PostalCode);
             cmd.Parameters.AddWithValue("@ServiceID", UserLogin.ServiceID);
             cmd.Parameters.AddWithValue("@BankDetail", UserLogin.BankDetail);
+            cmd.Parameters.AddWithValue("@RegistrationNo", UserLogin.RegistrationNo);
             cmd.Parameters.AddWithValue("@Skill", UserLogin.Skill);
             cmd.Parameters.AddWithValue("@ServiceArea", UserLogin.ServiceArea);
-            cmd.Parameters.AddWithValue("@Monday", UserLogin.Monday == true ? 1 : 0);
-            cmd.Parameters.AddWithValue("@Tuesday", UserLogin.Tuesday == true ? 1 : 0);
-            cmd.Parameters.AddWithValue("@Wednesday", UserLogin.Wednesday == true ? 1 : 0);
-            cmd.Parameters.AddWithValue("@Thursday", UserLogin.Thursday == true ? 1 : 0);
-            cmd.Parameters.AddWithValue("@Friday", UserLogin.Friday == true ? 1 : 0);
-            cmd.Parameters.AddWithValue("@Saturday", UserLogin.Saturday == true ? 1 : 0);
-            cmd.Parameters.AddWithValue("@Sunday", UserLogin.Sunday == true ? 1 : 0);
-            cmd.Parameters.AddWithValue("@FromTime", TimeSpan.Parse(UserLogin.FromTime));
-            cmd.Parameters.AddWithValue("@ToTime", TimeSpan.Parse(UserLogin.ToTime));
+            cmd.Parameters.AddWithValue("@Monday", UserLogin.Monday);
+            cmd.Parameters.AddWithValue("@Tuesday", UserLogin.Tuesday);
+            cmd.Parameters.AddWithValue("@Wednesday", UserLogin.Wednesday);
+            cmd.Parameters.AddWithValue("@Thursday", UserLogin.Thursday);
+            cmd.Parameters.AddWithValue("@Friday", UserLogin.Friday);
+            cmd.Parameters.AddWithValue("@Saturday", UserLogin.Saturday);
+            cmd.Parameters.AddWithValue("@Sunday", UserLogin.Sunday);
+            cmd.Parameters.AddWithValue("@FromTime", UserLogin.FromTime);
+            cmd.Parameters.AddWithValue("@ToTime", UserLogin.ToTime);
             cmd.Parameters.AddWithValue("@Gender", UserLogin.Gender);
 
 
@@ -117,6 +128,68 @@ namespace TherapistAPI.DataAccess
             Id = (int)cmd.Parameters["@id"].Value;
             conn.Close();
             return Id;
+        }
+
+
+
+        public void UpdateProfile(UsersModel UserLogin, int UserID, int RefID, int RefType)
+        {
+
+            if (conn.State == ConnectionState.Open)
+            {
+                conn.Close();
+            }
+
+
+
+            SqlCommand cmd = new SqlCommand("[therapistdb].[SP_UpdateProfile]", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UserID", UserID);
+            cmd.Parameters.AddWithValue("@RefID", RefID);
+            cmd.Parameters.AddWithValue("@FirstName", UserLogin.FirstName);
+            cmd.Parameters.AddWithValue("@LastName", UserLogin.LastName);
+            cmd.Parameters.AddWithValue("@Email", UserLogin.Email);
+            cmd.Parameters.AddWithValue("@Phone", UserLogin.Phone);
+
+            cmd.Parameters.AddWithValue("@RefType", RefType);
+            cmd.Parameters.AddWithValue("@InsuranceNo", UserLogin.InsuranceNo);
+            cmd.Parameters.AddWithValue("@Age", UserLogin.Age);
+            if (RefType == 1)
+            {
+                cmd.Parameters.AddWithValue("@DOB", null);
+                cmd.Parameters.AddWithValue("@ExpDate", null);
+            }
+            else
+            {
+                cmd.Parameters.AddWithValue("@DOB", UserLogin.DOB);
+                cmd.Parameters.AddWithValue("@ExpDate", UserLogin.ExpDate);
+            }
+
+            //New Field
+            cmd.Parameters.AddWithValue("@AddrLine1", UserLogin.AddrLine1);
+            cmd.Parameters.AddWithValue("@AddrLine2", UserLogin.AddrLine2);
+            cmd.Parameters.AddWithValue("@City", UserLogin.City);
+            cmd.Parameters.AddWithValue("@State", UserLogin.State);
+            cmd.Parameters.AddWithValue("@Country", UserLogin.Country);
+            cmd.Parameters.AddWithValue("@ServiceID", UserLogin.ServiceID);
+            cmd.Parameters.AddWithValue("@BankDetail", UserLogin.BankDetail);
+            cmd.Parameters.AddWithValue("@Skill", UserLogin.Skill);
+            cmd.Parameters.AddWithValue("@ServiceArea", UserLogin.ServiceArea);
+            cmd.Parameters.AddWithValue("@Monday", UserLogin.Monday);
+            cmd.Parameters.AddWithValue("@Tuesday", UserLogin.Tuesday);
+            cmd.Parameters.AddWithValue("@Wednesday", UserLogin.Wednesday);
+            cmd.Parameters.AddWithValue("@Thursday", UserLogin.Thursday);
+            cmd.Parameters.AddWithValue("@Friday", UserLogin.Friday);
+            cmd.Parameters.AddWithValue("@Saturday", UserLogin.Saturday);
+            cmd.Parameters.AddWithValue("@Sunday", UserLogin.Sunday);
+            cmd.Parameters.AddWithValue("@FromTime", UserLogin.FromTime);
+            cmd.Parameters.AddWithValue("@ToTime", UserLogin.ToTime);
+            cmd.Parameters.AddWithValue("@Gender", UserLogin.Gender);
+
+            conn.Open();
+            cmd.ExecuteNonQuery();
+
+            conn.Close();
         }
 
         public void TransDocument(DocumentModel doc)
@@ -130,10 +203,81 @@ namespace TherapistAPI.DataAccess
             cmd.Parameters.AddWithValue("@RefId", doc.RefId);
             cmd.Parameters.AddWithValue("@RefType", doc.RefType);
             cmd.Parameters.AddWithValue("@DocPath", doc.DocPath);
+            cmd.Parameters.AddWithValue("@DocName", doc.DocName);
+            cmd.Parameters.AddWithValue("@MimeType", doc.MimeType);
+            cmd.Parameters.AddWithValue("@FileContent", doc.FileContent);
             conn.Open();
             cmd.ExecuteNonQuery();
             conn.Close();
         }
+
+        public List<UsersModel> GetAllUsers()
+        {
+            DataSet DS = new DataSet();
+            SqlCommand cmd = new SqlCommand("[therapistdb].[SP_GetAllUsers]", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            SqlDataAdapter adp = new SqlDataAdapter(cmd);
+            DataSet ds = new DataSet();
+            adp.Fill(ds);
+            List<UsersModel> lstUsers = new List<UsersModel>();
+            lstUsers = objCommon.ConvertDataTable<UsersModel>(ds.Tables[0]);
+            return lstUsers;
+        }
+
+        public List<UsersModel> GetUserDetails(int userID, int refType)
+        {
+            DataSet DS = new DataSet();
+            SqlCommand cmd = new SqlCommand("[therapistdb].[SP_GetUserDetails]", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UserId", userID);
+
+            SqlDataAdapter adp = new SqlDataAdapter(cmd);
+            DataSet ds = new DataSet();
+            adp.Fill(ds);
+            List<UsersModel> lstUsers = new List<UsersModel>();
+            lstUsers = objCommon.ConvertDataTable<UsersModel>(ds.Tables[0]);
+            lstUsers[0].ServiceList = new List<ServicesModel>();
+
+            lstUsers[0].Documents = objCommon.ConvertDataTable<DocumentModel>(ds.Tables[1]);
+            if (ds.Tables.Contains("Table2"))
+            {
+                lstUsers[0].ServiceList = objCommon.ConvertDataTable<ServicesModel>(ds.Tables[2]);
+            }
+
+            return lstUsers;
+        }
+
+        public void ApproveUser(int UserID)
+        {
+            if (conn.State == ConnectionState.Open)
+            {
+                conn.Close();
+            }
+            SqlCommand cmd = new SqlCommand("[therapistdb].[SP_ApproveUser]", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UserId", UserID);
+            conn.Open();
+            cmd.ExecuteNonQuery();
+            conn.Close();
+        }
+
+        public void ChangePassword(ChangePasswordViewModel model, int UserID)
+        {
+            if (conn.State == ConnectionState.Open)
+            {
+                conn.Close();
+            }
+            SqlCommand cmd = new SqlCommand("[therapistdb].[SP_ChangePassword]", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UserId", UserID);
+            cmd.Parameters.AddWithValue("@OldPassword", model.OldPassword);
+            cmd.Parameters.AddWithValue("@NewPassword", model.NewPassword);
+            conn.Open();
+            cmd.ExecuteNonQuery();
+            conn.Close();
+        }
+
         //public List<UserLoginModel> GetAutoSuggestedUsers(string UserSearchString, string SelectedUsers)
         //{
         //    DataSet DS = new DataSet();

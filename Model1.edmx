@@ -1,0 +1,1154 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="therapistModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="PatientBooking">
+          <Key>
+            <PropertyRef Name="PatientBookingID" />
+          </Key>
+          <Property Name="PatientBookingID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ServiceID" Type="int" />
+          <Property Name="Address" Type="varchar(max)" />
+          <Property Name="BookingDate" Type="date" />
+          <Property Name="FromTime" Type="varchar" MaxLength="50" />
+          <Property Name="ToTime" Type="varchar" MaxLength="50" />
+          <Property Name="PatientID" Type="int" />
+          <Property Name="TherapistID" Type="int" />
+          <Property Name="Status" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TherapistCalender">
+          <Key>
+            <PropertyRef Name="TherapistCalenderID" />
+          </Key>
+          <Property Name="TherapistCalenderID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TherapistID" Type="int" />
+          <Property Name="Day" Type="int" />
+          <Property Name="FromTime" Type="varchar" MaxLength="50" />
+          <Property Name="ToTime" Type="varchar" MaxLength="50" />
+          <Property Name="EnteredOn" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Booking">
+          <Key>
+            <PropertyRef Name="BookingID" />
+          </Key>
+          <Property Name="BookingID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PatientID" Type="int" />
+          <Property Name="TherapistID" Type="int" />
+          <Property Name="BookingDate" Type="datetime" />
+          <Property Name="BookingFTime" Type="datetime" />
+          <Property Name="BookingTTime" Type="datetime" />
+          <Property Name="Checkin" Type="datetime" />
+          <Property Name="Chekout" Type="datetime" />
+          <Property Name="Note" Type="varchar(max)" />
+          <Property Name="Amount" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Addressline1" Type="varchar" MaxLength="500" />
+          <Property Name="AddressLine2" Type="varchar" MaxLength="500" />
+          <Property Name="City" Type="varchar" MaxLength="200" />
+          <Property Name="State" Type="varchar" MaxLength="200" />
+          <Property Name="Zipcode" Type="varchar" MaxLength="20" />
+          <Property Name="Country" Type="varchar" MaxLength="50" />
+          <Property Name="Status" Type="varchar" MaxLength="50" />
+          <Property Name="EnteredBy" Type="varchar" MaxLength="200" />
+          <Property Name="EnteredOn" Type="datetime" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="200" />
+          <Property Name="ModifiedOn" Type="datetime" />
+          <Property Name="ValidFrom" Type="datetime" />
+          <Property Name="ValidTo" Type="datetime" />
+          <Property Name="IsPannic" Type="int" />
+          <Property Name="Gender" Type="char" MaxLength="1" />
+          <Property Name="DOB" Type="datetime" />
+          <Property Name="EmergencyName" Type="varchar" MaxLength="200" />
+          <Property Name="EmergPhone" Type="varchar" MaxLength="30" />
+          <Property Name="Occupation" Type="varchar" MaxLength="100" />
+          <Property Name="Employer" Type="varchar" MaxLength="100" />
+          <Property Name="FamilyDocor" Type="varchar" MaxLength="100" />
+          <Property Name="RefProf" Type="varchar" MaxLength="100" />
+          <Property Name="RefSour" Type="varchar" MaxLength="100" />
+          <Property Name="ReferredTo" Type="varchar" MaxLength="100" />
+          <Property Name="MarkEmail" Type="varchar" MaxLength="100" />
+          <Property Name="PatientName" Type="varchar" MaxLength="100" />
+          <Property Name="InsuranceComp" Type="varchar" MaxLength="100" />
+          <Property Name="PolicyNo" Type="varchar" MaxLength="100" />
+          <Property Name="IDNo" Type="varchar" MaxLength="100" />
+          <Property Name="Year" Type="varchar" MaxLength="5" />
+          <Property Name="PlicyDOB" Type="datetime" />
+          <Property Name="RelPat" Type="varchar" MaxLength="100" />
+          <Property Name="AssBen" Type="varchar" MaxLength="100" />
+          <Property Name="IsInvOtherHelthCare" Type="bit" />
+        </EntityType>
+        <EntityType Name="BookingSer">
+          <Key>
+            <PropertyRef Name="BookingSerID" />
+          </Key>
+          <Property Name="BookingSerID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ServiceID" Type="int" />
+          <Property Name="Description" Type="varchar" MaxLength="500" />
+          <Property Name="BookingID" Type="int" />
+        </EntityType>
+        <EntityType Name="Document">
+          <Key>
+            <PropertyRef Name="DocID" />
+          </Key>
+          <Property Name="DocID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RefId" Type="int" Nullable="false" />
+          <Property Name="RefType" Type="int" Nullable="false" />
+          <Property Name="DocPath" Type="varchar(max)" />
+          <Property Name="ValidFrom" Type="datetime" Nullable="false" />
+          <Property Name="ValidTo" Type="datetime" />
+          <Property Name="DocName" Type="varchar" MaxLength="50" />
+          <Property Name="FileContent" Type="varchar(max)" />
+          <Property Name="MimeType" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="ECHBen">
+          <Key>
+            <PropertyRef Name="ECHBenID" />
+          </Key>
+          <Property Name="ECHBenID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Type" Type="varchar" MaxLength="50" />
+          <Property Name="YearlyMax" Type="varchar" MaxLength="5" />
+          <Property Name="InitiMax" Type="varchar" MaxLength="5" />
+          <Property Name="SubSeqMax" Type="varchar" MaxLength="5" />
+          <Property Name="Pay" Type="varchar" MaxLength="5" />
+          <Property Name="RefRequired" Type="varchar" MaxLength="100" />
+          <Property Name="BookingID" Type="bigint" />
+        </EntityType>
+        <EntityType Name="Patient">
+          <Key>
+            <PropertyRef Name="PatientID" />
+          </Key>
+          <Property Name="PatientID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Age" Type="int" />
+          <Property Name="InsuranceNo" Type="varchar" MaxLength="100" />
+          <Property Name="ExpDate" Type="datetime" />
+          <Property Name="DOB" Type="datetime" />
+          <Property Name="ValidFrom" Type="datetime" />
+          <Property Name="ValidTo" Type="datetime" />
+          <Property Name="Gender" Type="char" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="Services">
+          <Key>
+            <PropertyRef Name="ServiceID" />
+          </Key>
+          <Property Name="ServiceID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ServiceName" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="ParServiceID" Type="int" />
+        </EntityType>
+        <EntityType Name="Therapist">
+          <Key>
+            <PropertyRef Name="TherapistID" />
+          </Key>
+          <Property Name="TherapistID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="EmgContName" Type="varchar" MaxLength="200" />
+          <Property Name="EmgEmail" Type="varchar" MaxLength="500" />
+          <Property Name="EmgPhone" Type="varchar" MaxLength="25" />
+          <Property Name="ValidFrom" Type="datetime" Nullable="false" />
+          <Property Name="ValidTo" Type="datetime" />
+          <Property Name="AddrLine1" Type="varchar" MaxLength="500" />
+          <Property Name="AddrLine2" Type="varchar" MaxLength="500" />
+          <Property Name="City" Type="varchar" MaxLength="100" />
+          <Property Name="State" Type="varchar" MaxLength="100" />
+          <Property Name="Country" Type="varchar" MaxLength="100" />
+          <Property Name="PostalCode" Type="varchar" MaxLength="50" />
+          <Property Name="RegistrationNo" Type="varchar" MaxLength="50" />
+          <Property Name="ServiceID" Type="varchar" MaxLength="100" />
+          <Property Name="BankDetail" Type="varchar" MaxLength="500" />
+          <Property Name="Skill" Type="varchar" MaxLength="500" />
+          <Property Name="ServiceArea" Type="varchar" MaxLength="100" />
+          <Property Name="Monday" Type="bit" />
+          <Property Name="Tuesday" Type="bit" />
+          <Property Name="Wednesday" Type="bit" />
+          <Property Name="Thursday" Type="bit" />
+          <Property Name="Friday" Type="bit" />
+          <Property Name="Saturday" Type="bit" />
+          <Property Name="Sunday" Type="bit" />
+          <Property Name="FromTime" Type="varchar" MaxLength="50" />
+          <Property Name="ToTime" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="RefID" Type="int" />
+          <Property Name="RefType" Type="int" />
+          <Property Name="Email" Type="varchar" MaxLength="500" />
+          <Property Name="Phone" Type="varchar" MaxLength="25" />
+          <Property Name="ValidFrom" Type="datetime" Nullable="false" />
+          <Property Name="ValidTo" Type="datetime" />
+          <Property Name="Approve" Type="int" Nullable="false" />
+        </EntityType>
+        <Function Name="SP_ApproveBooking" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="therapistdb">
+          <Parameter Name="BookingID" Type="int" Mode="In" />
+          <Parameter Name="TherapistID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_ApproveCancelBooking" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="therapistdb">
+          <Parameter Name="PatientBookingID" Type="int" Mode="In" />
+          <Parameter Name="TherapistID" Type="int" Mode="In" />
+          <Parameter Name="Status" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_ApproveUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="therapistdb">
+          <Parameter Name="UserId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_ChangePassword" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="therapistdb">
+          <Parameter Name="UserId" Type="int" Mode="In" />
+          <Parameter Name="OldPassword" Type="varchar" Mode="In" />
+          <Parameter Name="NewPassword" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_CompleteBooking" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="therapistdb">
+          <Parameter Name="PatientBookingID" Type="int" Mode="In" />
+          <Parameter Name="Status" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_GetAllServices" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="therapistdb" />
+        <Function Name="SP_GetAllUsers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="therapistdb" />
+        <Function Name="SP_GetBooking" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="therapistdb">
+          <Parameter Name="UserId" Type="int" Mode="In" />
+          <Parameter Name="BookingID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_GetBookingList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="therapistdb">
+          <Parameter Name="UserId" Type="int" Mode="In" />
+          <Parameter Name="RefType" Type="int" Mode="In" />
+          <Parameter Name="RefID" Type="int" Mode="In" />
+          <Parameter Name="Status" Type="varchar" Mode="In" />
+          <Parameter Name="TherapistName" Type="varchar" Mode="In" />
+          <Parameter Name="PatientName" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_GetDashboard" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="therapistdb">
+          <Parameter Name="UserId" Type="int" Mode="In" />
+          <Parameter Name="RefType" Type="int" Mode="In" />
+          <Parameter Name="RefID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_GetUserDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="therapistdb">
+          <Parameter Name="UserId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_GetUserInfo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="therapistdb">
+          <Parameter Name="UserId" Type="int" Mode="In" />
+          <Parameter Name="BookingID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_Register" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="therapistdb">
+          <Parameter Name="FirstName" Type="varchar" Mode="In" />
+          <Parameter Name="LastName" Type="varchar" Mode="In" />
+          <Parameter Name="Email" Type="varchar" Mode="In" />
+          <Parameter Name="Password" Type="varchar" Mode="In" />
+          <Parameter Name="Phone" Type="varchar" Mode="In" />
+          <Parameter Name="RefType" Type="int" Mode="In" />
+          <Parameter Name="InsuranceNo" Type="varchar" Mode="In" />
+          <Parameter Name="Age" Type="int" Mode="In" />
+          <Parameter Name="DOB" Type="datetime" Mode="In" />
+          <Parameter Name="ExpDate" Type="datetime" Mode="In" />
+          <Parameter Name="AddrLine1" Type="varchar" Mode="In" />
+          <Parameter Name="AddrLine2" Type="varchar" Mode="In" />
+          <Parameter Name="City" Type="varchar" Mode="In" />
+          <Parameter Name="State" Type="varchar" Mode="In" />
+          <Parameter Name="Country" Type="varchar" Mode="In" />
+          <Parameter Name="PostalCode" Type="varchar" Mode="In" />
+          <Parameter Name="ServiceID" Type="varchar" Mode="In" />
+          <Parameter Name="BankDetail" Type="varchar" Mode="In" />
+          <Parameter Name="Skill" Type="varchar" Mode="In" />
+          <Parameter Name="RegistrationNo" Type="varchar" Mode="In" />
+          <Parameter Name="ServiceArea" Type="varchar" Mode="In" />
+          <Parameter Name="Monday" Type="bit" Mode="In" />
+          <Parameter Name="Tuesday" Type="bit" Mode="In" />
+          <Parameter Name="Wednesday" Type="bit" Mode="In" />
+          <Parameter Name="Thursday" Type="bit" Mode="In" />
+          <Parameter Name="Friday" Type="bit" Mode="In" />
+          <Parameter Name="Saturday" Type="bit" Mode="In" />
+          <Parameter Name="Sunday" Type="bit" Mode="In" />
+          <Parameter Name="FromTime" Type="varchar" Mode="In" />
+          <Parameter Name="ToTime" Type="varchar" Mode="In" />
+          <Parameter Name="Gender" Type="varchar" Mode="In" />
+          <Parameter Name="id" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="SP_SaveBooking" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="therapistdb">
+          <Parameter Name="PatientID" Type="int" Mode="In" />
+          <Parameter Name="TherapistID" Type="int" Mode="In" />
+          <Parameter Name="EnteredBy" Type="int" Mode="In" />
+          <Parameter Name="PatientName" Type="varchar" Mode="In" />
+          <Parameter Name="DOB" Type="datetime" Mode="In" />
+          <Parameter Name="InsuranceComp" Type="varchar" Mode="In" />
+          <Parameter Name="PolicyNo" Type="varchar" Mode="In" />
+          <Parameter Name="IDNo" Type="varchar" Mode="In" />
+          <Parameter Name="Year" Type="varchar" Mode="In" />
+          <Parameter Name="PlicyDOB" Type="datetime" Mode="In" />
+          <Parameter Name="RelPat" Type="varchar" Mode="In" />
+          <Parameter Name="AssBen" Type="varchar" Mode="In" />
+          <Parameter Name="BookingSerXML" Type="xml" Mode="In" />
+          <Parameter Name="IsInvOtherHelthCare" Type="bit" Mode="In" />
+          <Parameter Name="ECHBenXML" Type="xml" Mode="In" />
+          <Parameter Name="BookingID" Type="int" Mode="In" />
+          <Parameter Name="Identity" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="SP_TransDocument" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="therapistdb">
+          <Parameter Name="RefId" Type="int" Mode="In" />
+          <Parameter Name="RefType" Type="int" Mode="In" />
+          <Parameter Name="DocPath" Type="varchar" Mode="In" />
+          <Parameter Name="DocName" Type="varchar" Mode="In" />
+          <Parameter Name="MimeType" Type="varchar" Mode="In" />
+          <Parameter Name="FileContent" Type="varchar(max)" Mode="In" />
+        </Function>
+        <Function Name="SP_UpdateProfile" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="therapistdb">
+          <Parameter Name="UserId" Type="int" Mode="In" />
+          <Parameter Name="RefID" Type="int" Mode="In" />
+          <Parameter Name="FirstName" Type="varchar" Mode="In" />
+          <Parameter Name="LastName" Type="varchar" Mode="In" />
+          <Parameter Name="Email" Type="varchar" Mode="In" />
+          <Parameter Name="Phone" Type="varchar" Mode="In" />
+          <Parameter Name="RefType" Type="int" Mode="In" />
+          <Parameter Name="InsuranceNo" Type="varchar" Mode="In" />
+          <Parameter Name="Age" Type="int" Mode="In" />
+          <Parameter Name="DOB" Type="datetime" Mode="In" />
+          <Parameter Name="ExpDate" Type="datetime" Mode="In" />
+          <Parameter Name="AddrLine1" Type="varchar" Mode="In" />
+          <Parameter Name="AddrLine2" Type="varchar" Mode="In" />
+          <Parameter Name="City" Type="varchar" Mode="In" />
+          <Parameter Name="State" Type="varchar" Mode="In" />
+          <Parameter Name="Country" Type="varchar" Mode="In" />
+          <Parameter Name="ServiceID" Type="varchar" Mode="In" />
+          <Parameter Name="BankDetail" Type="varchar" Mode="In" />
+          <Parameter Name="Skill" Type="varchar" Mode="In" />
+          <Parameter Name="ServiceArea" Type="varchar" Mode="In" />
+          <Parameter Name="Monday" Type="bit" Mode="In" />
+          <Parameter Name="Tuesday" Type="bit" Mode="In" />
+          <Parameter Name="Wednesday" Type="bit" Mode="In" />
+          <Parameter Name="Thursday" Type="bit" Mode="In" />
+          <Parameter Name="Friday" Type="bit" Mode="In" />
+          <Parameter Name="Saturday" Type="bit" Mode="In" />
+          <Parameter Name="Sunday" Type="bit" Mode="In" />
+          <Parameter Name="FromTime" Type="varchar" Mode="In" />
+          <Parameter Name="ToTime" Type="varchar" Mode="In" />
+          <Parameter Name="Gender" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_UserLogin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="therapistdb">
+          <Parameter Name="EmailId" Type="varchar" Mode="In" />
+          <Parameter Name="Password" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SplitString" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="therapistdb">
+          <Parameter Name="Input" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="Character" Type="char" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="Item" Type="nvarchar" MaxLength="1000" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <EntityContainer Name="therapistModelStoreContainer">
+          <EntitySet Name="PatientBooking" EntityType="Self.PatientBooking" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TherapistCalender" EntityType="Self.TherapistCalender" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Booking" EntityType="Self.Booking" Schema="therapistdb" store:Type="Tables" />
+          <EntitySet Name="BookingSer" EntityType="Self.BookingSer" Schema="therapistdb" store:Type="Tables" />
+          <EntitySet Name="Document" EntityType="Self.Document" Schema="therapistdb" store:Type="Tables" />
+          <EntitySet Name="ECHBen" EntityType="Self.ECHBen" Schema="therapistdb" store:Type="Tables" />
+          <EntitySet Name="Patient" EntityType="Self.Patient" Schema="therapistdb" store:Type="Tables" />
+          <EntitySet Name="Services" EntityType="Self.Services" Schema="therapistdb" store:Type="Tables" />
+          <EntitySet Name="Therapist" EntityType="Self.Therapist" Schema="therapistdb" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="therapistdb" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="therapistModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <ComplexType Name="SplitString_Result">
+          <Property Name="Item" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+        </ComplexType>
+        <EntityType Name="Booking">
+          <Key>
+            <PropertyRef Name="BookingID" />
+          </Key>
+          <Property Name="BookingID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PatientID" Type="Int32" />
+          <Property Name="TherapistID" Type="Int32" />
+          <Property Name="BookingDate" Type="DateTime" Precision="3" />
+          <Property Name="BookingFTime" Type="DateTime" Precision="3" />
+          <Property Name="BookingTTime" Type="DateTime" Precision="3" />
+          <Property Name="Checkin" Type="DateTime" Precision="3" />
+          <Property Name="Chekout" Type="DateTime" Precision="3" />
+          <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Amount" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Addressline1" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="AddressLine2" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="State" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Zipcode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EnteredBy" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="EnteredOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+          <Property Name="ValidFrom" Type="DateTime" Precision="3" />
+          <Property Name="ValidTo" Type="DateTime" Precision="3" />
+          <Property Name="IsPannic" Type="Int32" />
+          <Property Name="Gender" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="DOB" Type="DateTime" Precision="3" />
+          <Property Name="EmergencyName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="EmergPhone" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Occupation" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Employer" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FamilyDocor" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="RefProf" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="RefSour" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ReferredTo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="MarkEmail" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PatientName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="InsuranceComp" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PolicyNo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="IDNo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Year" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="PlicyDOB" Type="DateTime" Precision="3" />
+          <Property Name="RelPat" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="AssBen" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="IsInvOtherHelthCare" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="BookingSer">
+          <Key>
+            <PropertyRef Name="BookingSerID" />
+          </Key>
+          <Property Name="BookingSerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ServiceID" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="BookingID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Document">
+          <Key>
+            <PropertyRef Name="DocID" />
+          </Key>
+          <Property Name="DocID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RefId" Type="Int32" Nullable="false" />
+          <Property Name="RefType" Type="Int32" Nullable="false" />
+          <Property Name="DocPath" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ValidFrom" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ValidTo" Type="DateTime" Precision="3" />
+          <Property Name="DocName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FileContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="MimeType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ECHBen">
+          <Key>
+            <PropertyRef Name="ECHBenID" />
+          </Key>
+          <Property Name="ECHBenID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="YearlyMax" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="InitiMax" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="SubSeqMax" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Pay" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="RefRequired" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="BookingID" Type="Int64" />
+        </EntityType>
+        <EntityType Name="Patient">
+          <Key>
+            <PropertyRef Name="PatientID" />
+          </Key>
+          <Property Name="PatientID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Age" Type="Int32" />
+          <Property Name="InsuranceNo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ExpDate" Type="DateTime" Precision="3" />
+          <Property Name="DOB" Type="DateTime" Precision="3" />
+          <Property Name="ValidFrom" Type="DateTime" Precision="3" />
+          <Property Name="ValidTo" Type="DateTime" Precision="3" />
+          <Property Name="Gender" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Service">
+          <Key>
+            <PropertyRef Name="ServiceID" />
+          </Key>
+          <Property Name="ServiceID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ServiceName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ParServiceID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Therapist">
+          <Key>
+            <PropertyRef Name="TherapistID" />
+          </Key>
+          <Property Name="TherapistID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="EmgContName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="EmgEmail" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="EmgPhone" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="ValidFrom" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ValidTo" Type="DateTime" Precision="3" />
+          <Property Name="AddrLine1" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="AddrLine2" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="State" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Country" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ServiceID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="BankDetail" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Skill" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="ServiceArea" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Monday" Type="Boolean" />
+          <Property Name="Tuesday" Type="Boolean" />
+          <Property Name="Wednesday" Type="Boolean" />
+          <Property Name="Thursday" Type="Boolean" />
+          <Property Name="Friday" Type="Boolean" />
+          <Property Name="Saturday" Type="Boolean" />
+          <Property Name="Sunday" Type="Boolean" />
+          <Property Name="FromTime" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ToTime" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PostalCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RegistrationNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="RefID" Type="Int32" />
+          <Property Name="RefType" Type="Int32" />
+          <Property Name="Email" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Phone" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="ValidFrom" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ValidTo" Type="DateTime" Precision="3" />
+          <Property Name="Approve" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="therapistEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Bookings" EntityType="Self.Booking" />
+          <EntitySet Name="BookingSers" EntityType="Self.BookingSer" />
+          <EntitySet Name="Documents" EntityType="Self.Document" />
+          <EntitySet Name="ECHBens" EntityType="Self.ECHBen" />
+          <EntitySet Name="Patients" EntityType="Self.Patient" />
+          <EntitySet Name="Services" EntityType="Self.Service" />
+          <EntitySet Name="Therapists" EntityType="Self.Therapist" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <FunctionImport Name="SplitString" IsComposable="true" ReturnType="Collection(therapistModel.SplitString_Result)">
+            <Parameter Name="Input" Mode="In" Type="String" />
+            <Parameter Name="Character" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_ApproveBooking">
+            <Parameter Name="BookingID" Mode="In" Type="Int32" />
+            <Parameter Name="TherapistID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_ApproveCancelBooking">
+            <Parameter Name="PatientBookingID" Mode="In" Type="Int32" />
+            <Parameter Name="TherapistID" Mode="In" Type="Int32" />
+            <Parameter Name="Status" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_ApproveUser">
+          <Parameter Name="UserId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_ChangePassword">
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+            <Parameter Name="OldPassword" Mode="In" Type="String" />
+            <Parameter Name="NewPassword" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_CompleteBooking">
+            <Parameter Name="PatientBookingID" Mode="In" Type="Int32" />
+            <Parameter Name="Status" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GetAllServices" ReturnType="Collection(therapistModel.SP_GetAllServices_Result)" />
+          <FunctionImport Name="SP_GetAllUsers" ReturnType="Collection(therapistModel.SP_GetAllUsers_Result)" />
+          <FunctionImport Name="SP_GetBooking" ReturnType="Collection(therapistModel.SP_GetBooking_Result)">
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+            <Parameter Name="BookingID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GetBookingList">
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+            <Parameter Name="RefType" Mode="In" Type="Int32" />
+            <Parameter Name="RefID" Mode="In" Type="Int32" />
+            <Parameter Name="Status" Mode="In" Type="String" />
+            <Parameter Name="TherapistName" Mode="In" Type="String" />
+            <Parameter Name="PatientName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GetDashboard" ReturnType="Collection(therapistModel.SP_GetDashboard_Result)">
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+            <Parameter Name="RefType" Mode="In" Type="Int32" />
+            <Parameter Name="RefID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GetUserDetails" ReturnType="Collection(therapistModel.SP_GetUserDetails_Result)">
+          <Parameter Name="UserId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GetUserInfo" ReturnType="Collection(therapistModel.SP_GetUserInfo_Result)">
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+            <Parameter Name="BookingID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_Register">
+            <Parameter Name="FirstName" Mode="In" Type="String" />
+            <Parameter Name="LastName" Mode="In" Type="String" />
+            <Parameter Name="Email" Mode="In" Type="String" />
+            <Parameter Name="Password" Mode="In" Type="String" />
+            <Parameter Name="Phone" Mode="In" Type="String" />
+            <Parameter Name="RefType" Mode="In" Type="Int32" />
+            <Parameter Name="InsuranceNo" Mode="In" Type="String" />
+            <Parameter Name="Age" Mode="In" Type="Int32" />
+            <Parameter Name="DOB" Mode="In" Type="DateTime" />
+            <Parameter Name="ExpDate" Mode="In" Type="DateTime" />
+            <Parameter Name="AddrLine1" Mode="In" Type="String" />
+            <Parameter Name="AddrLine2" Mode="In" Type="String" />
+            <Parameter Name="City" Mode="In" Type="String" />
+            <Parameter Name="State" Mode="In" Type="String" />
+            <Parameter Name="Country" Mode="In" Type="String" />
+            <Parameter Name="PostalCode" Mode="In" Type="String" />
+            <Parameter Name="ServiceID" Mode="In" Type="String" />
+            <Parameter Name="BankDetail" Mode="In" Type="String" />
+            <Parameter Name="Skill" Mode="In" Type="String" />
+            <Parameter Name="RegistrationNo" Mode="In" Type="String" />
+            <Parameter Name="ServiceArea" Mode="In" Type="String" />
+            <Parameter Name="Monday" Mode="In" Type="Boolean" />
+            <Parameter Name="Tuesday" Mode="In" Type="Boolean" />
+            <Parameter Name="Wednesday" Mode="In" Type="Boolean" />
+            <Parameter Name="Thursday" Mode="In" Type="Boolean" />
+            <Parameter Name="Friday" Mode="In" Type="Boolean" />
+            <Parameter Name="Saturday" Mode="In" Type="Boolean" />
+            <Parameter Name="Sunday" Mode="In" Type="Boolean" />
+            <Parameter Name="FromTime" Mode="In" Type="String" />
+            <Parameter Name="ToTime" Mode="In" Type="String" />
+            <Parameter Name="Gender" Mode="In" Type="String" />
+            <Parameter Name="id" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_SaveBooking">
+            <Parameter Name="PatientID" Mode="In" Type="Int32" />
+            <Parameter Name="TherapistID" Mode="In" Type="Int32" />
+            <Parameter Name="EnteredBy" Mode="In" Type="Int32" />
+            <Parameter Name="PatientName" Mode="In" Type="String" />
+            <Parameter Name="DOB" Mode="In" Type="DateTime" />
+            <Parameter Name="InsuranceComp" Mode="In" Type="String" />
+            <Parameter Name="PolicyNo" Mode="In" Type="String" />
+            <Parameter Name="IDNo" Mode="In" Type="String" />
+            <Parameter Name="Year" Mode="In" Type="String" />
+            <Parameter Name="PlicyDOB" Mode="In" Type="DateTime" />
+            <Parameter Name="RelPat" Mode="In" Type="String" />
+            <Parameter Name="AssBen" Mode="In" Type="String" />
+            <Parameter Name="BookingSerXML" Mode="In" Type="String" />
+            <Parameter Name="IsInvOtherHelthCare" Mode="In" Type="Boolean" />
+            <Parameter Name="ECHBenXML" Mode="In" Type="String" />
+            <Parameter Name="BookingID" Mode="In" Type="Int32" />
+            <Parameter Name="Identity" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_TransDocument">
+            <Parameter Name="RefId" Mode="In" Type="Int32" />
+            <Parameter Name="RefType" Mode="In" Type="Int32" />
+            <Parameter Name="DocPath" Mode="In" Type="String" />
+            <Parameter Name="DocName" Mode="In" Type="String" />
+            <Parameter Name="MimeType" Mode="In" Type="String" />
+            <Parameter Name="FileContent" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_UpdateProfile">
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+            <Parameter Name="RefID" Mode="In" Type="Int32" />
+            <Parameter Name="FirstName" Mode="In" Type="String" />
+            <Parameter Name="LastName" Mode="In" Type="String" />
+            <Parameter Name="Email" Mode="In" Type="String" />
+            <Parameter Name="Phone" Mode="In" Type="String" />
+            <Parameter Name="RefType" Mode="In" Type="Int32" />
+            <Parameter Name="InsuranceNo" Mode="In" Type="String" />
+            <Parameter Name="Age" Mode="In" Type="Int32" />
+            <Parameter Name="DOB" Mode="In" Type="DateTime" />
+            <Parameter Name="ExpDate" Mode="In" Type="DateTime" />
+            <Parameter Name="AddrLine1" Mode="In" Type="String" />
+            <Parameter Name="AddrLine2" Mode="In" Type="String" />
+            <Parameter Name="City" Mode="In" Type="String" />
+            <Parameter Name="State" Mode="In" Type="String" />
+            <Parameter Name="Country" Mode="In" Type="String" />
+            <Parameter Name="ServiceID" Mode="In" Type="String" />
+            <Parameter Name="BankDetail" Mode="In" Type="String" />
+            <Parameter Name="Skill" Mode="In" Type="String" />
+            <Parameter Name="ServiceArea" Mode="In" Type="String" />
+            <Parameter Name="Monday" Mode="In" Type="Boolean" />
+            <Parameter Name="Tuesday" Mode="In" Type="Boolean" />
+            <Parameter Name="Wednesday" Mode="In" Type="Boolean" />
+            <Parameter Name="Thursday" Mode="In" Type="Boolean" />
+            <Parameter Name="Friday" Mode="In" Type="Boolean" />
+            <Parameter Name="Saturday" Mode="In" Type="Boolean" />
+            <Parameter Name="Sunday" Mode="In" Type="Boolean" />
+            <Parameter Name="FromTime" Mode="In" Type="String" />
+            <Parameter Name="ToTime" Mode="In" Type="String" />
+            <Parameter Name="Gender" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_UserLogin" ReturnType="Collection(therapistModel.SP_UserLogin_Result)">
+            <Parameter Name="EmailId" Mode="In" Type="String" />
+            <Parameter Name="Password" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="PatientBookings" EntityType="therapistModel.PatientBooking" />
+          <EntitySet Name="TherapistCalenders" EntityType="therapistModel.TherapistCalender" />
+        </EntityContainer>
+        <ComplexType Name="SP_GetAllServices_Result">
+          <Property Type="Int32" Name="ServiceID" Nullable="false" />
+          <Property Type="String" Name="ServiceName" Nullable="false" MaxLength="200" />
+          <Property Type="Int32" Name="ParServiceID" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SP_GetAllUsers_Result">
+          <Property Type="Int32" Name="UserID" Nullable="false" />
+          <Property Type="String" Name="TherapistName" Nullable="true" MaxLength="401" />
+          <Property Type="String" Name="PatientName" Nullable="true" MaxLength="401" />
+          <Property Type="DateTime" Name="ValidFrom" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="Approve" Nullable="false" />
+          <Property Type="Int32" Name="RefType" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SP_GetBooking_Result">
+          <Property Type="String" Name="Phone" Nullable="true" MaxLength="25" />
+          <Property Type="String" Name="UserName" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="DateExpdate" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="DateDOB" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="Age" Nullable="true" />
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="Gender" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="InsuranceNo" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="LastName" Nullable="false" MaxLength="200" />
+          <Property Type="Int32" Name="PatientID" Nullable="false" />
+          <Property Type="DateTime" Name="ValidFrom" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="ValidTo" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="SP_GetDashboard_Result">
+          <Property Type="Int32" Name="Assign" Nullable="true" />
+          <Property Type="Int32" Name="Completed" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SP_GetUserDetails_Result">
+          <Property Type="Int32" Name="UserID" Nullable="false" />
+          <Property Type="String" Name="UserName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="200" />
+          <Property Type="Int32" Name="RefID" Nullable="true" />
+          <Property Type="Int32" Name="RefType" Nullable="true" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Phone" Nullable="true" MaxLength="25" />
+          <Property Type="DateTime" Name="ValidFrom" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="ValidTo" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="Approve" Nullable="false" />
+          <Property Type="Int32" Name="TherapistID" Nullable="false" />
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="LastName" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="EmgContName" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="EmgEmail" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="EmgPhone" Nullable="true" MaxLength="25" />
+          <Property Type="DateTime" Name="ValidFrom1" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="ValidTo1" Nullable="true" Precision="23" />
+          <Property Type="String" Name="AddrLine1" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="AddrLine2" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="City" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="State" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Country" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ServiceID" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="BankDetail" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Skill" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="ServiceArea" Nullable="true" MaxLength="100" />
+          <Property Type="Boolean" Name="Monday" Nullable="true" />
+          <Property Type="Boolean" Name="Tuesday" Nullable="true" />
+          <Property Type="Boolean" Name="Wednesday" Nullable="true" />
+          <Property Type="Boolean" Name="Thursday" Nullable="true" />
+          <Property Type="Boolean" Name="Friday" Nullable="true" />
+          <Property Type="Boolean" Name="Saturday" Nullable="true" />
+          <Property Type="Boolean" Name="Sunday" Nullable="true" />
+          <Property Type="String" Name="FromTime" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ToTime" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="SP_GetUserInfo_Result">
+          <Property Type="String" Name="Phone" Nullable="true" MaxLength="25" />
+          <Property Type="String" Name="UserName" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="DateExpdate" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="DateDOB" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="Age" Nullable="true" />
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="Gender" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="InsuranceNo" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="LastName" Nullable="false" MaxLength="200" />
+          <Property Type="Int32" Name="PatientID" Nullable="false" />
+          <Property Type="DateTime" Name="ValidFrom" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="ValidTo" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="SP_UserLogin_Result">
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="UserName" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="UserID" Nullable="false" />
+          <Property Type="Int32" Name="Approve" Nullable="false" />
+          <Property Type="Int32" Name="RefID" Nullable="true" />
+          <Property Type="Int32" Name="RefType" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="PatientBooking">
+          <Key>
+            <PropertyRef Name="PatientBookingID" />
+          </Key>
+          <Property Name="PatientBookingID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ServiceID" Type="Int32" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="BookingDate" Type="DateTime" Precision="0" />
+          <Property Name="FromTime" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ToTime" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PatientID" Type="Int32" />
+          <Property Name="TherapistID" Type="Int32" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="TherapistCalender">
+          <Key>
+            <PropertyRef Name="TherapistCalenderID" />
+          </Key>
+          <Property Name="TherapistCalenderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TherapistID" Type="Int32" />
+          <Property Name="Day" Type="Int32" />
+          <Property Name="FromTime" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ToTime" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EnteredOn" Type="DateTime" Precision="3" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="therapistModelStoreContainer" CdmEntityContainer="therapistEntities">
+          <EntitySetMapping Name="Bookings">
+            <EntityTypeMapping TypeName="therapistModel.Booking">
+              <MappingFragment StoreEntitySet="Booking">
+                <ScalarProperty Name="BookingID" ColumnName="BookingID" />
+                <ScalarProperty Name="PatientID" ColumnName="PatientID" />
+                <ScalarProperty Name="TherapistID" ColumnName="TherapistID" />
+                <ScalarProperty Name="BookingDate" ColumnName="BookingDate" />
+                <ScalarProperty Name="BookingFTime" ColumnName="BookingFTime" />
+                <ScalarProperty Name="BookingTTime" ColumnName="BookingTTime" />
+                <ScalarProperty Name="Checkin" ColumnName="Checkin" />
+                <ScalarProperty Name="Chekout" ColumnName="Chekout" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Addressline1" ColumnName="Addressline1" />
+                <ScalarProperty Name="AddressLine2" ColumnName="AddressLine2" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Zipcode" ColumnName="Zipcode" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="EnteredBy" ColumnName="EnteredBy" />
+                <ScalarProperty Name="EnteredOn" ColumnName="EnteredOn" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+                <ScalarProperty Name="ValidFrom" ColumnName="ValidFrom" />
+                <ScalarProperty Name="ValidTo" ColumnName="ValidTo" />
+                <ScalarProperty Name="IsPannic" ColumnName="IsPannic" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="DOB" ColumnName="DOB" />
+                <ScalarProperty Name="EmergencyName" ColumnName="EmergencyName" />
+                <ScalarProperty Name="EmergPhone" ColumnName="EmergPhone" />
+                <ScalarProperty Name="Occupation" ColumnName="Occupation" />
+                <ScalarProperty Name="Employer" ColumnName="Employer" />
+                <ScalarProperty Name="FamilyDocor" ColumnName="FamilyDocor" />
+                <ScalarProperty Name="RefProf" ColumnName="RefProf" />
+                <ScalarProperty Name="RefSour" ColumnName="RefSour" />
+                <ScalarProperty Name="ReferredTo" ColumnName="ReferredTo" />
+                <ScalarProperty Name="MarkEmail" ColumnName="MarkEmail" />
+                <ScalarProperty Name="PatientName" ColumnName="PatientName" />
+                <ScalarProperty Name="InsuranceComp" ColumnName="InsuranceComp" />
+                <ScalarProperty Name="PolicyNo" ColumnName="PolicyNo" />
+                <ScalarProperty Name="IDNo" ColumnName="IDNo" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="PlicyDOB" ColumnName="PlicyDOB" />
+                <ScalarProperty Name="RelPat" ColumnName="RelPat" />
+                <ScalarProperty Name="AssBen" ColumnName="AssBen" />
+                <ScalarProperty Name="IsInvOtherHelthCare" ColumnName="IsInvOtherHelthCare" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BookingSers">
+            <EntityTypeMapping TypeName="therapistModel.BookingSer">
+              <MappingFragment StoreEntitySet="BookingSer">
+                <ScalarProperty Name="BookingSerID" ColumnName="BookingSerID" />
+                <ScalarProperty Name="ServiceID" ColumnName="ServiceID" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="BookingID" ColumnName="BookingID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Documents">
+            <EntityTypeMapping TypeName="therapistModel.Document">
+              <MappingFragment StoreEntitySet="Document">
+                <ScalarProperty Name="MimeType" ColumnName="MimeType" />
+                <ScalarProperty Name="FileContent" ColumnName="FileContent" />
+                <ScalarProperty Name="DocID" ColumnName="DocID" />
+                <ScalarProperty Name="RefId" ColumnName="RefId" />
+                <ScalarProperty Name="RefType" ColumnName="RefType" />
+                <ScalarProperty Name="DocPath" ColumnName="DocPath" />
+                <ScalarProperty Name="ValidFrom" ColumnName="ValidFrom" />
+                <ScalarProperty Name="ValidTo" ColumnName="ValidTo" />
+                <ScalarProperty Name="DocName" ColumnName="DocName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ECHBens">
+            <EntityTypeMapping TypeName="therapistModel.ECHBen">
+              <MappingFragment StoreEntitySet="ECHBen">
+                <ScalarProperty Name="ECHBenID" ColumnName="ECHBenID" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="YearlyMax" ColumnName="YearlyMax" />
+                <ScalarProperty Name="InitiMax" ColumnName="InitiMax" />
+                <ScalarProperty Name="SubSeqMax" ColumnName="SubSeqMax" />
+                <ScalarProperty Name="Pay" ColumnName="Pay" />
+                <ScalarProperty Name="RefRequired" ColumnName="RefRequired" />
+                <ScalarProperty Name="BookingID" ColumnName="BookingID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Patients">
+            <EntityTypeMapping TypeName="therapistModel.Patient">
+              <MappingFragment StoreEntitySet="Patient">
+                <ScalarProperty Name="PatientID" ColumnName="PatientID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+                <ScalarProperty Name="InsuranceNo" ColumnName="InsuranceNo" />
+                <ScalarProperty Name="ExpDate" ColumnName="ExpDate" />
+                <ScalarProperty Name="DOB" ColumnName="DOB" />
+                <ScalarProperty Name="ValidFrom" ColumnName="ValidFrom" />
+                <ScalarProperty Name="ValidTo" ColumnName="ValidTo" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Services">
+            <EntityTypeMapping TypeName="therapistModel.Service">
+              <MappingFragment StoreEntitySet="Services">
+                <ScalarProperty Name="ServiceID" ColumnName="ServiceID" />
+                <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ParServiceID" ColumnName="ParServiceID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Therapists">
+            <EntityTypeMapping TypeName="therapistModel.Therapist">
+              <MappingFragment StoreEntitySet="Therapist">
+                <ScalarProperty Name="RegistrationNo" ColumnName="RegistrationNo" />
+                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+                <ScalarProperty Name="TherapistID" ColumnName="TherapistID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="EmgContName" ColumnName="EmgContName" />
+                <ScalarProperty Name="EmgEmail" ColumnName="EmgEmail" />
+                <ScalarProperty Name="EmgPhone" ColumnName="EmgPhone" />
+                <ScalarProperty Name="ValidFrom" ColumnName="ValidFrom" />
+                <ScalarProperty Name="ValidTo" ColumnName="ValidTo" />
+                <ScalarProperty Name="AddrLine1" ColumnName="AddrLine1" />
+                <ScalarProperty Name="AddrLine2" ColumnName="AddrLine2" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="ServiceID" ColumnName="ServiceID" />
+                <ScalarProperty Name="BankDetail" ColumnName="BankDetail" />
+                <ScalarProperty Name="Skill" ColumnName="Skill" />
+                <ScalarProperty Name="ServiceArea" ColumnName="ServiceArea" />
+                <ScalarProperty Name="Monday" ColumnName="Monday" />
+                <ScalarProperty Name="Tuesday" ColumnName="Tuesday" />
+                <ScalarProperty Name="Wednesday" ColumnName="Wednesday" />
+                <ScalarProperty Name="Thursday" ColumnName="Thursday" />
+                <ScalarProperty Name="Friday" ColumnName="Friday" />
+                <ScalarProperty Name="Saturday" ColumnName="Saturday" />
+                <ScalarProperty Name="Sunday" ColumnName="Sunday" />
+                <ScalarProperty Name="FromTime" ColumnName="FromTime" />
+                <ScalarProperty Name="ToTime" ColumnName="ToTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="therapistModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="RefID" ColumnName="RefID" />
+                <ScalarProperty Name="RefType" ColumnName="RefType" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="ValidFrom" ColumnName="ValidFrom" />
+                <ScalarProperty Name="ValidTo" ColumnName="ValidTo" />
+                <ScalarProperty Name="Approve" ColumnName="Approve" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionName="therapistModel.Store.SplitString" FunctionImportName="SplitString">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="therapistModel.SplitString_Result">
+                <ScalarProperty Name="Item" ColumnName="Item" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_ApproveBooking" FunctionName="therapistModel.Store.SP_ApproveBooking" />
+          <FunctionImportMapping FunctionImportName="SP_ApproveCancelBooking" FunctionName="therapistModel.Store.SP_ApproveCancelBooking" />
+          <FunctionImportMapping FunctionImportName="SP_ApproveUser" FunctionName="therapistModel.Store.SP_ApproveUser" />
+          <FunctionImportMapping FunctionImportName="SP_ChangePassword" FunctionName="therapistModel.Store.SP_ChangePassword" />
+          <FunctionImportMapping FunctionImportName="SP_CompleteBooking" FunctionName="therapistModel.Store.SP_CompleteBooking" />
+          <FunctionImportMapping FunctionImportName="SP_GetAllServices" FunctionName="therapistModel.Store.SP_GetAllServices">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="therapistModel.SP_GetAllServices_Result">
+                <ScalarProperty Name="ServiceID" ColumnName="ServiceID" />
+                <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
+                <ScalarProperty Name="ParServiceID" ColumnName="ParServiceID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GetAllUsers" FunctionName="therapistModel.Store.SP_GetAllUsers">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="therapistModel.SP_GetAllUsers_Result">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="TherapistName" ColumnName="TherapistName" />
+                <ScalarProperty Name="PatientName" ColumnName="PatientName" />
+                <ScalarProperty Name="ValidFrom" ColumnName="ValidFrom" />
+                <ScalarProperty Name="Approve" ColumnName="Approve" />
+                <ScalarProperty Name="RefType" ColumnName="RefType" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GetBooking" FunctionName="therapistModel.Store.SP_GetBooking">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="therapistModel.SP_GetBooking_Result">
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="DateExpdate" ColumnName="DateExpdate" />
+                <ScalarProperty Name="DateDOB" ColumnName="DateDOB" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="InsuranceNo" ColumnName="InsuranceNo" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="PatientID" ColumnName="PatientID" />
+                <ScalarProperty Name="ValidFrom" ColumnName="ValidFrom" />
+                <ScalarProperty Name="ValidTo" ColumnName="ValidTo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GetBookingList" FunctionName="therapistModel.Store.SP_GetBookingList" />
+          <FunctionImportMapping FunctionImportName="SP_GetDashboard" FunctionName="therapistModel.Store.SP_GetDashboard">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="therapistModel.SP_GetDashboard_Result">
+                <ScalarProperty Name="Assign" ColumnName="Assign" />
+                <ScalarProperty Name="Completed" ColumnName="Completed" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GetUserDetails" FunctionName="therapistModel.Store.SP_GetUserDetails">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="therapistModel.SP_GetUserDetails_Result">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="RefID" ColumnName="RefID" />
+                <ScalarProperty Name="RefType" ColumnName="RefType" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="ValidFrom" ColumnName="ValidFrom" />
+                <ScalarProperty Name="ValidTo" ColumnName="ValidTo" />
+                <ScalarProperty Name="Approve" ColumnName="Approve" />
+                <ScalarProperty Name="TherapistID" ColumnName="TherapistID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="EmgContName" ColumnName="EmgContName" />
+                <ScalarProperty Name="EmgEmail" ColumnName="EmgEmail" />
+                <ScalarProperty Name="EmgPhone" ColumnName="EmgPhone" />
+                <ScalarProperty Name="ValidFrom1" ColumnName="ValidFrom1" />
+                <ScalarProperty Name="ValidTo1" ColumnName="ValidTo1" />
+                <ScalarProperty Name="AddrLine1" ColumnName="AddrLine1" />
+                <ScalarProperty Name="AddrLine2" ColumnName="AddrLine2" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="ServiceID" ColumnName="ServiceID" />
+                <ScalarProperty Name="BankDetail" ColumnName="BankDetail" />
+                <ScalarProperty Name="Skill" ColumnName="Skill" />
+                <ScalarProperty Name="ServiceArea" ColumnName="ServiceArea" />
+                <ScalarProperty Name="Monday" ColumnName="Monday" />
+                <ScalarProperty Name="Tuesday" ColumnName="Tuesday" />
+                <ScalarProperty Name="Wednesday" ColumnName="Wednesday" />
+                <ScalarProperty Name="Thursday" ColumnName="Thursday" />
+                <ScalarProperty Name="Friday" ColumnName="Friday" />
+                <ScalarProperty Name="Saturday" ColumnName="Saturday" />
+                <ScalarProperty Name="Sunday" ColumnName="Sunday" />
+                <ScalarProperty Name="FromTime" ColumnName="FromTime" />
+                <ScalarProperty Name="ToTime" ColumnName="ToTime" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_GetUserInfo" FunctionName="therapistModel.Store.SP_GetUserInfo">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="therapistModel.SP_GetUserInfo_Result">
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="DateExpdate" ColumnName="DateExpdate" />
+                <ScalarProperty Name="DateDOB" ColumnName="DateDOB" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="InsuranceNo" ColumnName="InsuranceNo" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="PatientID" ColumnName="PatientID" />
+                <ScalarProperty Name="ValidFrom" ColumnName="ValidFrom" />
+                <ScalarProperty Name="ValidTo" ColumnName="ValidTo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_Register" FunctionName="therapistModel.Store.SP_Register" />
+          <FunctionImportMapping FunctionImportName="SP_SaveBooking" FunctionName="therapistModel.Store.SP_SaveBooking" />
+          <FunctionImportMapping FunctionImportName="SP_TransDocument" FunctionName="therapistModel.Store.SP_TransDocument" />
+          <FunctionImportMapping FunctionImportName="SP_UpdateProfile" FunctionName="therapistModel.Store.SP_UpdateProfile" />
+          <FunctionImportMapping FunctionImportName="SP_UserLogin" FunctionName="therapistModel.Store.SP_UserLogin">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="therapistModel.SP_UserLogin_Result">
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Approve" ColumnName="Approve" />
+                <ScalarProperty Name="RefID" ColumnName="RefID" />
+                <ScalarProperty Name="RefType" ColumnName="RefType" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="PatientBookings">
+            <EntityTypeMapping TypeName="therapistModel.PatientBooking">
+              <MappingFragment StoreEntitySet="PatientBooking">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="TherapistID" ColumnName="TherapistID" />
+                <ScalarProperty Name="PatientID" ColumnName="PatientID" />
+                <ScalarProperty Name="ToTime" ColumnName="ToTime" />
+                <ScalarProperty Name="FromTime" ColumnName="FromTime" />
+                <ScalarProperty Name="BookingDate" ColumnName="BookingDate" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="ServiceID" ColumnName="ServiceID" />
+                <ScalarProperty Name="PatientBookingID" ColumnName="PatientBookingID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TherapistCalenders">
+            <EntityTypeMapping TypeName="therapistModel.TherapistCalender">
+              <MappingFragment StoreEntitySet="TherapistCalender">
+                <ScalarProperty Name="EnteredOn" ColumnName="EnteredOn" />
+                <ScalarProperty Name="ToTime" ColumnName="ToTime" />
+                <ScalarProperty Name="FromTime" ColumnName="FromTime" />
+                <ScalarProperty Name="Day" ColumnName="Day" />
+                <ScalarProperty Name="TherapistID" ColumnName="TherapistID" />
+                <ScalarProperty Name="TherapistCalenderID" ColumnName="TherapistCalenderID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

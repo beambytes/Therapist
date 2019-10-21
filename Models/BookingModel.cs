@@ -30,7 +30,7 @@ namespace TherapistAPI.Models
         
         public int IsPannic { get; set; }
         public string Gender { get; set; }
-        public DateTime DOB { get; set; }
+        public DateTime? DOB { get; set; }
         public string EmergencyName { get; set; }
         public string EmergPhone { get; set; }
         public string Occupation { get; set; }
@@ -96,10 +96,26 @@ namespace TherapistAPI.Models
         public int TherapistCount { get; set; }
         public int PatientCount { get; set; }
         
-        public List<BookingModel> BookingList { get; set; }
+        public List<PatientBookingModel> BookingList { get; set; }
         
     }
 
+    public class PatientBookingModel : BaseModel
+    {
+        public int PatientBookingID { get; set; }
+        public Nullable<int> ServiceID { get; set; }
+        public string Address { get; set; }
+        public Nullable<System.DateTime> BookingDate { get; set; }
+        public string FromTime { get; set; }
+        public string ToTime { get; set; }
+        public Nullable<int> PatientID { get; set; }
+        public Nullable<int> TherapistID { get; set; }
+        public string Status { get; set; }
+        public string TherapistName { get; set; }
+        public string PatientName { get; set; }
+        public List<ServicesModel> ServiceList { get; set; }
+        public List<TherapistModel> TherapistList { get; set; }
+    }
 
 
     public enum EHC

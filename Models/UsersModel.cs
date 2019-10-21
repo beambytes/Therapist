@@ -37,6 +37,9 @@ namespace TherapistAPI.Models
         [Display(Name = "Phone Number")]
         public string Phone { get; set; }
 
+        [Required]
+        public string PostalCode { get; set; }
+
         public int Approve { get; set; }
 
         
@@ -45,12 +48,12 @@ namespace TherapistAPI.Models
         
         public string InsuranceNo { get; set; }
 
-        public string ExpDate { get; set; }
+        public DateTime ExpDate { get; set; }
 
-        public string DOB { get; set; }
-        public DateTime DateDOB { get; set; }
+        public DateTime DOB { get; set; }
+        //public DateTime DateDOB { get; set; }
 
-        public DateTime DateExpdate { get; set; }
+        //public DateTime DateExpdate { get; set; }
         
 
         // New Field
@@ -74,11 +77,14 @@ namespace TherapistAPI.Models
 
         
         public string BankDetail { get; set; }
-      
-        public string Skill { get; set; }
-       
+
+        public string RegistrationNo  { get; set; }
+
         public string ServiceArea { get; set; }
 
+
+        public string Skill { get; set; }
+       
 
         public bool Monday { get; set; }
         public bool Tuesday { get; set; }
@@ -103,6 +109,16 @@ namespace TherapistAPI.Models
 
         public UserTokenViewModel UserTokenInfo { get; set; }
 
+
+        public string TherapistName { get; set; }
+        public string PatientName { get; set; }
+
+        public int BookingID { get; set; }
+
+        public List<DocumentModel> Documents { get; set; }
+
+        public List<ServicesModel> ServiceList { get; set; }
+
     }
 
 
@@ -111,5 +127,12 @@ namespace TherapistAPI.Models
         public string access_token { set; get; }
         public string expires_in { set; get; }
         public string refresh_token { set; get; }
+    }
+
+    public class ChangePasswordViewModel
+    {
+        public string OldPassword { get; set; }
+        public string NewPassword { get; set; }
+        public string ConfirmPassword { get; set; }
     }
 }

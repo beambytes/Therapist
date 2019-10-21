@@ -73,6 +73,16 @@ namespace TherapistAPI.DataAccess
                 model.EHCbenefitsList = new List<EHCbenefitsModel>();
             }
 
+            if (model.DOB == DateTime.MinValue)
+            {
+                model.DOB = null;
+            }
+
+            if (model.PlicyDOB == DateTime.MinValue)
+            {
+                model.PlicyDOB = null;
+            }
+
             model.BookingDate = DateTime.Now;
             model.EnteredOn = DateTime.Now;
             model.EnteredBy = userId;
@@ -106,6 +116,9 @@ namespace TherapistAPI.DataAccess
         }
 
 
+        
+
+
         public DashboardModel GetDashboard(int userId, int RefType, int RefID)
         {
             DataSet DS = new DataSet();
@@ -131,11 +144,11 @@ namespace TherapistAPI.DataAccess
             model.TherapistCount = dashboard[0].TherapistCount;
             model.PatientCount = dashboard[0].PatientCount;
 
-            model.BookingList = objCommon.ConvertDataTable<BookingModel>(ds.Tables[1]);
+            model.BookingList = objCommon.ConvertDataTable<PatientBookingModel>(ds.Tables[1]);
             return model;
         }
 
-        public List<BookingModel> GetAllBooking(int userId, int RefType, int RefID, BookingModel model1)
+        public List<PatientBookingModel> GetAllBooking(int userId, int RefType, int RefID, BookingModel model1)
         {
             DataSet DS = new DataSet();
 
@@ -151,13 +164,13 @@ namespace TherapistAPI.DataAccess
             SqlDataAdapter adp = new SqlDataAdapter(cmd);
             DataSet ds = new DataSet();
             adp.Fill(ds);
-            List<BookingModel> model = objCommon.ConvertDataTable<BookingModel>(ds.Tables[0]);
+            List<PatientBookingModel> model = objCommon.ConvertDataTable<PatientBookingModel>(ds.Tables[0]);
             return model;
         }
 
-        public void ApproveCancelBooking(BookingModel model)
+        public void ApproveCancelBooking(PatientBookingModel model)
         {
-           
+
             if (conn.State == ConnectionState.Open)
             {
                 conn.Close();
@@ -165,7 +178,7 @@ namespace TherapistAPI.DataAccess
 
             SqlCommand cmd = new SqlCommand("[therapistdb].[SP_ApproveCancelBooking]", conn);
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@BookingID", model.BookingID);
+            cmd.Parameters.AddWithValue("@PatientBookingID", model.PatientBookingID);
             cmd.Parameters.AddWithValue("@TherapistID", model.TherapistID);
             cmd.Parameters.AddWithValue("@Status", model.Status);
             conn.Open();
@@ -173,7 +186,7 @@ namespace TherapistAPI.DataAccess
             conn.Close();
         }
 
-        public void CompleteBooking(BookingModel model)
+        public void CompleteBooking(PatientBookingModel model)
         {
 
             if (conn.State == ConnectionState.Open)
@@ -183,7 +196,7 @@ namespace TherapistAPI.DataAccess
 
             SqlCommand cmd = new SqlCommand("[therapistdb].[SP_CompleteBooking]", conn);
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@BookingID", model.BookingID);
+            cmd.Parameters.AddWithValue("@PatientBookingID", model.PatientBookingID);
             cmd.Parameters.AddWithValue("@Status", model.Status);
             conn.Open();
             cmd.ExecuteNonQuery();

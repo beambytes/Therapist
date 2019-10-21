@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Mail;
 using System.Security.Claims;
 using System.Web;
 using System.Web.Http;
@@ -17,37 +18,148 @@ using TherapistAPI.Models;
 
 namespace TherapistAPI.Controllers
 {
-    [AllowAnonymous]
-    [RoutePrefix("api/Register")]
-    public class RegisterController : ApiController
+    [Authorize]
+    [RoutePrefix("api/Users")]
+    public class UsersController : ApiController
     {
         private ResponseData responseData = new ResponseData();
         private static Random random = new Random();
         therapistEntities entities = new therapistEntities();
 
-        [Route("Register")]
-        public IHttpActionResult Register(UsersModel model)
+        [HttpPost]
+        [Route("GetUsers")]
+        public IHttpActionResult GetAllUsers()
         {
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    responseData.message = ModelStateErrors(ModelState);
-                    return Ok(responseData);
-                }
-                //DateTime a = DateTime.ParseExact(model.ExpDate, "MM/dd/yyyy", CultureInfo.InvariantCulture);
-                //DateTime b = Convert.ToDateTime(model.DOB);
-                model.ServiceID = HttpContext.Current.Request.Form["ServiceID"];
-                model.ServiceArea = HttpContext.Current.Request.Form["ServiceArea"];
                 RegisterDL obj = new RegisterDL();
-                int Id = obj.Register(model);
+                var list = obj.GetAllUsers();
+                return Ok(list);
+
+            }
+            catch (Exception ex)
+            {
+                responseData.success = false;
+                responseData.message = ex.Message != null ? ex.Message.ToString() : "server error";
+                return Ok(responseData);
+            }
+        }
+
+        [HttpPost]
+        [Route("GetUserDetails")]
+        public IHttpActionResult GetUserDetails(UsersModel model)
+        {
+            try
+            {
+                RegisterDL obj = new RegisterDL();
+                var RefType = ((ClaimsIdentity)User.Identity).Claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.Name)).Value;
+
+                var UserId = ((ClaimsIdentity)User.Identity).Claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.NameIdentifier)).Value;
+
+
+                var list = obj.GetUserDetails(model.UserID == 0 ? Convert.ToInt32(UserId) : model.UserID, Convert.ToInt32(RefType));
+                return Ok(list);
+
+            }
+            catch (Exception ex)
+            {
+                responseData.success = false;
+                responseData.message = ex.Message != null ? ex.Message.ToString() : "server error";
+                return Ok(responseData);
+            }
+        }
+
+        [HttpPost]
+        [Route("ApproveUser")]
+        public IHttpActionResult ApproveUser(UsersModel model)
+        {
+            try
+            {
+                RegisterDL obj = new RegisterDL();
+                var RefType = ((ClaimsIdentity)User.Identity).Claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.Name)).Value;
+                obj.ApproveUser(model.UserID);
+                responseData.success = true;
+                responseData.code = 200;
+                responseData.message = "User approve successfully";
+
+                var list = obj.GetUserDetails(model.UserID, Convert.ToInt32(RefType));
+                string subject;
+                SendMail mail = new SendMail();
+                if (list[0].RefType == 2) // Patient
+                {
+                    subject = "Patient Approval";
+                    string body = mail.createEmailBody("PatientApproval.html");
+                    body = body.Replace("{UserName}", list[0].FirstName + " " + list[0].LastName);
+
+                    mail.SendGeneralMail(subject, list[0].Email, body);
+                   
+
+                }
+                else {
+                    subject = "Therapist Approval";
+                    string body = mail.createEmailBody("TherapistApproval.html");
+                    body = body.Replace("{UserName}", list[0].FirstName + " " + list[0].LastName);
+
+                    mail.SendGeneralMail(subject, list[0].Email, body);
+                }
+
+                return Ok(responseData);
+            }
+            catch (Exception ex)
+            {
+                responseData.success = false;
+                responseData.message = ex.Message != null ? ex.Message.ToString() : "server error";
+                return Ok(responseData);
+            }
+        }
+
+       
+
+        [HttpPost]
+        [Route("ChangePassword")]
+        public IHttpActionResult ChangePassword(ChangePasswordViewModel model)
+        {
+            try
+            {
+                RegisterDL obj = new RegisterDL();
+                var UserId = ((ClaimsIdentity)User.Identity).Claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.NameIdentifier)).Value;
+                obj.ChangePassword(model, Convert.ToInt32(UserId));
+                responseData.success = true;
+                responseData.code = 200;
+                responseData.message = "Password changed successfully";
+                return Ok(responseData);
+
+            }
+            catch (Exception ex)
+            {
+                responseData.success = false;
+                responseData.message = ex.Message != null ? ex.Message.ToString() : "server error";
+                return Ok(responseData);
+            }
+        }
+
+        [Route("UpdateProfile")]
+        public IHttpActionResult UpdateProfile(UsersModel model)
+        {
+            try
+            {
+
+                var UserId = ((ClaimsIdentity)User.Identity).Claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.NameIdentifier)).Value;
+
+                var RefType = ((ClaimsIdentity)User.Identity).Claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.Name)).Value;
+
+                var RefID = ((ClaimsIdentity)User.Identity).Claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.Sid)).Value;
+
+                model.ServiceID = HttpContext.Current.Request.Form["ServiceID"];
+                RegisterDL obj = new RegisterDL();
+                obj.UpdateProfile(model,Convert.ToInt32(UserId),Convert.ToInt32(RefID), Convert.ToInt32(RefType));
 
 
                 // Upload Files
                 HttpFileCollection files = HttpContext.Current.Request.Files;
                 if (files.Count > 0)
                 {
-                    //string path = HttpContext.Current.Server.MapPath("~/Uploads/" + model.RefType + "_" + Id);
+                    //string path = HttpContext.Current.Server.MapPath("~/Uploads/" + model.RefType + "_" + RefID);
                     //if (!Directory.Exists(path))
                     //{
                     //    Directory.CreateDirectory(path);
@@ -67,8 +179,8 @@ namespace TherapistAPI.Controllers
                             Byte[] FileDet = Br.ReadBytes((Int32)str.Length);
                             string base64String = Convert.ToBase64String(FileDet, 0, FileDet.Length);
 
-                            doc.RefId = Id;
-                            doc.RefType = model.RefType;
+                            doc.RefId = Convert.ToInt32(RefID);
+                            doc.RefType = Convert.ToInt32(RefType);
                             //doc.DocPath = filePath;
                             doc.DocName = hpf.FileName;
                             doc.FileContent = base64String;
@@ -88,30 +200,95 @@ namespace TherapistAPI.Controllers
                             obj.TransDocument(doc);
                         }
                     }
-
                 };
 
-
-                SendMail mail = new SendMail();
-                if (model.RefType == 1)
-                {
-                    string body = mail.createEmailBody("TherapistRegistration.html");
-                    body = body.Replace("{UserName}", model.FirstName + " " + model.LastName);
-                    mail.SendGeneralMail("Therapist Registration", model.Email, body);
-                }
-                else
-                {
-                    string body = mail.createEmailBody("PatientRegistration.html");
-                    body = body.Replace("{UserName}", model.FirstName + " " + model.LastName);
-                    mail.SendGeneralMail("Patient Registration", model.Email, body);
-                }
-
-
                 responseData.success = true;
-                responseData.message = "Register successfully.";
+                responseData.message = "Profile Update successfully.";
                 responseData.code = (int)HttpStatusCode.Created;
                 return Ok(responseData);
 
+            }
+            catch (Exception ex)
+            {
+                responseData.message = ex.Message != null ? ex.Message.ToString() : "server error";
+                return Ok(responseData);
+            }
+        }
+
+        [Route("GetTherapistCalender")]
+        public IHttpActionResult GetTherapistCalender()
+        {
+            try
+            {
+                return Ok(entities.TherapistCalenders.ToList());
+
+            }
+            catch (Exception ex)
+            {
+                responseData.success = false;
+                responseData.message = ex.Message != null ? ex.Message.ToString() : "server error";
+                return Ok(responseData);
+            }
+        }
+
+        [HttpPost]
+        [Route("SaveTherapistCalender")]
+        public IHttpActionResult SaveTherapistCalender(TherapistCalender model)
+        {
+            try
+            {
+                RegisterDL obj = new RegisterDL();
+                var RefType = ((ClaimsIdentity)User.Identity).Claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.Name)).Value;
+
+                var UserId = ((ClaimsIdentity)User.Identity).Claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.NameIdentifier)).Value;
+
+                var RefID = ((ClaimsIdentity)User.Identity).Claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.Sid)).Value;
+
+                TherapistCalender tc = new TherapistCalender();
+                tc.Day = model.Day;
+                tc.EnteredOn = DateTime.Now;
+                tc.FromTime = model.FromTime;
+                tc.ToTime = model.ToTime;
+                tc.TherapistID = Convert.ToInt32(RefID);
+                entities.TherapistCalenders.Add(tc);
+                entities.SaveChanges();
+
+                responseData.success = true;
+                responseData.message = "Save calender successfully.";
+                return Ok(responseData);
+            }
+            catch (Exception ex)
+            {
+                responseData.success = false;
+                responseData.message = ex.Message != null ? ex.Message.ToString() : "server error";
+                return Ok(responseData);
+            }
+        }
+
+        [HttpPost]
+        [Route("DeleteTherapistCalender")]
+        public IHttpActionResult DeleteTherapistCalender(TherapistCalender model)
+        {
+            try
+            {
+                var UserId = ((ClaimsIdentity)User.Identity).Claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.NameIdentifier)).Value;
+                var RefType = ((ClaimsIdentity)User.Identity).Claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.Name)).Value;
+                var RefID = ((ClaimsIdentity)User.Identity).Claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.Sid)).Value;
+
+
+                TherapistCalender deptDelete = entities.TherapistCalenders.Find(model.TherapistCalenderID);
+                entities.TherapistCalenders.Remove(deptDelete);
+                entities.SaveChanges();
+
+                ResponseData responseData = new ResponseData();
+
+                responseData.success = true;
+                responseData.message = "Record delete successfully";
+                responseData.code = 200;
+
+                
+
+                return Ok(model);
             }
             catch (Exception ex)
             {
@@ -126,70 +303,6 @@ namespace TherapistAPI.Controllers
             return new string(Enumerable.Repeat(chars, length)
               .Select(s => s[random.Next(s.Length)]).ToArray());
         }
-
-        [HttpGet]
-        public IHttpActionResult GetAllServices()
-        {
-            try
-            {
-                RegisterDL obj = new RegisterDL();
-
-                var list = obj.GetAllServices();
-
-                responseData.success = true;
-                responseData.code = 200;
-                responseData.message = "country list updated successfully";
-                responseData.data = list;
-                return Ok(responseData);
-            }
-            catch (Exception ex)
-            {
-                responseData.message = "server error";
-                return Ok(responseData);
-            }
-        }
-
-        [AllowAnonymous]
-        [Route("Login")]
-        public IHttpActionResult LoginUser(UsersModel model)
-        {
-            try
-            {
-                RegisterDL obj = new RegisterDL();
-
-
-                UsersModel list = obj.UserLogin(model);
-
-                list.BookingID = entities.Bookings.Where(x => x.PatientID == list.RefID).Select(x => x.BookingID).FirstOrDefault();
-
-                responseData.success = true;
-                responseData.code = 200;
-                responseData.message = "Login successfully";
-                UserTokenViewModel userToken = GenerateAccessTokenForUser(list);
-                list.UserTokenInfo = userToken;
-                responseData.success = true;
-                responseData.data = list;
-                responseData.code = 200;
-
-                return Ok(responseData);
-            }
-            catch (Exception ex)
-            {
-                responseData.message = ex.Message != null ? ex.Message.ToString() : "server error";
-                return Ok(responseData);
-            }
-        }
-
-
-
-
-
-        #region private methods
-        private string ModelStateErrors(ModelStateDictionary modelState)
-        {
-            return string.Join(" | ", modelState.Values.SelectMany(v => v.Errors).Select(v => v.ErrorMessage));
-        }
-        #endregion
 
         //[HttpGet]
         //[Route("CountryList")]
