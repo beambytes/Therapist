@@ -37,7 +37,7 @@ namespace TherapistAPI.Models
         [Display(Name = "Phone Number")]
         public string Phone { get; set; }
 
-        [Required]
+        
         public string PostalCode { get; set; }
 
         public int Approve { get; set; }

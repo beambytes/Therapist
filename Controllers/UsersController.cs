@@ -28,12 +28,12 @@ namespace TherapistAPI.Controllers
 
         [HttpPost]
         [Route("GetUsers")]
-        public IHttpActionResult GetAllUsers()
+        public IHttpActionResult GetAllUsers(UsersModel model)
         {
             try
             {
                 RegisterDL obj = new RegisterDL();
-                var list = obj.GetAllUsers();
+                var list = obj.GetAllUsers(model);
                 return Ok(list);
 
             }
@@ -151,6 +151,7 @@ namespace TherapistAPI.Controllers
                 var RefID = ((ClaimsIdentity)User.Identity).Claims.FirstOrDefault(c => c.Type.Equals(ClaimTypes.Sid)).Value;
 
                 model.ServiceID = HttpContext.Current.Request.Form["ServiceID"];
+                model.ServiceArea = HttpContext.Current.Request.Form["ServiceArea"];
                 RegisterDL obj = new RegisterDL();
                 obj.UpdateProfile(model,Convert.ToInt32(UserId),Convert.ToInt32(RefID), Convert.ToInt32(RefType));
 

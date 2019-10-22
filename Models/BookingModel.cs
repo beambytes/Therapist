@@ -102,6 +102,8 @@ namespace TherapistAPI.Models
 
     public class PatientBookingModel : BaseModel
     {
+        public int BookingID { get; set; }
+
         public int PatientBookingID { get; set; }
         public Nullable<int> ServiceID { get; set; }
         public string Address { get; set; }

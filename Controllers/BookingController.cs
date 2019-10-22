@@ -322,7 +322,7 @@ namespace TherapistAPI.Controllers
                 model.code = 200;
 
                 //For Therapist
-                if (model.Status == "APPROVE")
+                if (model.Status == "APPROVED")
                 {
                     SendMail mail = new SendMail();
                     RegisterDL obj1 = new RegisterDL();

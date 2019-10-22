@@ -157,12 +157,10 @@ namespace TherapistAPI.DataAccess
             if (RefType == 1)
             {
                 cmd.Parameters.AddWithValue("@DOB", null);
-                cmd.Parameters.AddWithValue("@ExpDate", null);
             }
             else
             {
                 cmd.Parameters.AddWithValue("@DOB", UserLogin.DOB);
-                cmd.Parameters.AddWithValue("@ExpDate", UserLogin.ExpDate);
             }
 
             //New Field
@@ -171,6 +169,7 @@ namespace TherapistAPI.DataAccess
             cmd.Parameters.AddWithValue("@City", UserLogin.City);
             cmd.Parameters.AddWithValue("@State", UserLogin.State);
             cmd.Parameters.AddWithValue("@Country", UserLogin.Country);
+            cmd.Parameters.AddWithValue("@PostalCode", UserLogin.PostalCode);
             cmd.Parameters.AddWithValue("@ServiceID", UserLogin.ServiceID);
             cmd.Parameters.AddWithValue("@BankDetail", UserLogin.BankDetail);
             cmd.Parameters.AddWithValue("@Skill", UserLogin.Skill);
@@ -211,12 +210,12 @@ namespace TherapistAPI.DataAccess
             conn.Close();
         }
 
-        public List<UsersModel> GetAllUsers()
+        public List<UsersModel> GetAllUsers(UsersModel model)
         {
             DataSet DS = new DataSet();
             SqlCommand cmd = new SqlCommand("[therapistdb].[SP_GetAllUsers]", conn);
             cmd.CommandType = CommandType.StoredProcedure;
-
+            cmd.Parameters.AddWithValue("@RefType", model.RefType);
             SqlDataAdapter adp = new SqlDataAdapter(cmd);
             DataSet ds = new DataSet();
             adp.Fill(ds);
